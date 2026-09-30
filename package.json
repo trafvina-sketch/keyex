@@ -1,0 +1,9 @@
+{
+  "name": "keyex",
+  "version": "1.0.0",
+  "description": "Duong Tho Dola Master - Vercel Key Activation & Payload Security Server",
+  "private": true,
+  "scripts": {
+    "start": "node api/test.js"
+  }
+}
