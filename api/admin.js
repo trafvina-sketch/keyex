@@ -83,6 +83,18 @@ module.exports = async (req, res) => {
       return res.status(200).json({ success: true, message: `Đã mở khóa ${target} thành công!` });
     }
 
+    // 4. Khôi phục từ file Backup (Restore)
+    if (action === 'restore') {
+      const backupData = body.backupData;
+      if (!backupData || typeof backupData !== 'object') {
+        return res.status(400).json({ success: false, error: "Dữ liệu backup không hợp lệ!" });
+      }
+      db.keys = Object.assign({}, db.keys, backupData.keys || {});
+      db.blacklist = Object.assign({}, db.blacklist, backupData.blacklist || {});
+      await saveData(db);
+      return res.status(200).json({ success: true, message: "Đã khôi phục dữ liệu thành công!" });
+    }
+
     // 4. Lấy danh sách keys & blacklist
     return res.status(200).json({
       success: true,
