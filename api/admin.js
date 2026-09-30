@@ -83,6 +83,15 @@ module.exports = async (req, res) => {
       return res.status(200).json({ success: true, message: `Đã mở khóa ${target} thành công!` });
     }
 
+    // 3.5 Xóa Key khỏi hệ thống (Delete)
+    if (action === 'delete') {
+      const target = (body.target || '').replace(/[^A-Z0-9]/gi, '').toUpperCase();
+      delete db.keys[target];
+      delete db.blacklist[target];
+      await saveData(db);
+      return res.status(200).json({ success: true, message: `Đã xóa ${target} thành công!` });
+    }
+
     // 4. Khôi phục từ file Backup (Restore)
     if (action === 'restore') {
       const backupData = body.backupData;
